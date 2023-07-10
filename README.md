@@ -20,7 +20,7 @@ A API REST de faturas (invoices) é um exemplo de solução para gerenciar e pro
    ```shell
    composer install
    ```
-3. Dentro do diretório do projeto, copie e renomeie o arquivo .env.example:
+3. Copie e renomeie o arquivo **.env.example** para **.env**:
 
    ```shell
    cp .env.example .env
