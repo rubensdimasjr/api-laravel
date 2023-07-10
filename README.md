@@ -4,9 +4,8 @@ A API REST de faturas (invoices) é um exemplo de solução para gerenciar e pro
 
 ## Requisitos
 
-- PHP versão 8.2
-- Laravel versão 10
-- Banco de dados (MySQL)
+- Composer (última versão de preferência)
+- Git
 - Docker
 
 ## Instalação
