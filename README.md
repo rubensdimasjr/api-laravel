@@ -14,8 +14,7 @@ A API REST de faturas (invoices) é um exemplo de solução para gerenciar e pro
 1. Clone o repositório:
 
    ```shell
-   git clone https://github.com/seu-usuario/nome-do-projeto.git
-   cd api-laravel/
+   git clone https://github.com/seu-usuario/nome-do-projeto.git && cd api-laravel/
    ```
 2. Dentro do diretório do projeto, copie e renomeie o arquivo .env.example:
 
