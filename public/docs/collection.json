@@ -1,0 +1,362 @@
+{
+    "variable": [
+        {
+            "id": "baseUrl",
+            "key": "baseUrl",
+            "type": "string",
+            "name": "string",
+            "value": "http:\/\/127.0.0.1:8000"
+        }
+    ],
+    "info": {
+        "name": "Invoices API",
+        "_postman_id": "a8038f87-d91a-482c-866c-e33e1e8fbfeb",
+        "description": "Bem-vindo ao mundo das APIs de Invoices! Nossa API poderosa e vers\u00e1til permite a integra\u00e7\u00e3o perfeita da funcionalidade de faturamento em seus aplicativos e sistemas. Com nossa API, voc\u00ea pode gerar, gerenciar e processar invoices sem esfor\u00e7o, capacitando sua empresa a simplificar as opera\u00e7\u00f5es de faturamento. Diga adeus ao faturamento manual e adote a automa\u00e7\u00e3o, pois nossa API simplifica todo o fluxo de trabalho do faturamento. Aproveite a flexibilidade para personalizar modelos de invoice, automatizar lembretes de pagamento e gerar relat\u00f3rios detalhados com facilidade. Seja voc\u00ea uma pequena ou grande empresa, nossa API fornece uma solu\u00e7\u00e3o robusta e escal\u00e1vel para atender \u00e0s suas necessidades de faturamento. Experimente a efici\u00eancia e conveni\u00eancia de nossa API de Invoice hoje!",
+        "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
+    },
+    "item": [
+        {
+            "name": "Autentica\u00e7\u00e3o",
+            "description": "\nA autentica\u00e7\u00e3o de uma API \u00e9 um processo que verifica e confirma a identidade de um usu\u00e1rio ou aplica\u00e7\u00e3o antes de permitir o acesso aos recursos da API. Ela envolve o uso de credenciais, como tokens de acesso ou chaves de API, para garantir a seguran\u00e7a e prote\u00e7\u00e3o dos dados. A autentica\u00e7\u00e3o ajuda a controlar o acesso e garantir que apenas usu\u00e1rios autorizados possam interagir com a API.",
+            "item": [
+                {
+                    "name": "Requisi\u00e7\u00e3o de Acesso",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/login",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/login"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"jraynor@example.net\",\"password\":\"txDU&3Av\"}"
+                        },
+                        "description": "Realiza uma autentica\u00e7\u00e3o atrav\u00e9s do e-mail e senha do usu\u00e1rio.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n    \"message\": \"Authorized\",\n    \"status\": 200,\n    \"data\": {\n         \"token\": {YOUR_AUTH_KEY}\n     }\n}",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\n      \"message\": \"Not Authorized\",\n      \"status\": 403,\n      \"data\": []\n}",
+                            "name": "not authorized"
+                        }
+                    ]
+                },
+                {
+                    "name": "Requisi\u00e7\u00e3o de Saida",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/logout",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/logout"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Realiza o logout de um usu\u00e1rio autenticado."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n     \"message\": \"Token Revoked\",\n     \"status\": 200,\n     \"data\": []\n}",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 401,
+                            "body": "{\n     \"message\": \"Unauthenticated.\"\n}",
+                            "name": "unauthenticated"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Gerenciamento de Invoices",
+            "description": "\nEndpoints para gerenciar a API.",
+            "item": [
+                {
+                    "name": "Exibe lista de invoices",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/invoices",
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "1",
+                                    "description": "Utilizado para escolha da p\u00e1gina.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/invoices?page=1"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Realiza uma busca para listagem dos invoices com op\u00e7\u00f5es de filtro e pagina\u00e7\u00e3o.\n\n<aside class=\"notice\">\n<b>FILTROS<\/b>\n<br \/>\n<br \/>\n     <b>Par\u00e2metros<\/b>: (value, type, paid, payment_date)\n<br \/>\n     <b>Operadores<\/b>: <br \/>\n  gt \u27a1\ufe0f > (maior que)<br \/>\n  gte \u27a1\ufe0f >= (maior ou igual)<br \/>\n  lt \u27a1\ufe0f < (menor que)<br \/>\n  lte \u27a1\ufe0f <= (menor ou igual)<br \/>\n  eq \u27a1\ufe0f = (igual)<br \/>\n  ne \u27a1\ufe0f != (n\u00e3o igual)<br \/>\n  in \u27a1\ufe0f in (existe em)<br \/>\n<br \/>\nUtiliza\u00e7\u00e3o: <b>api\/v1\/invoices<\/b>?<u>paid[eq]=1<\/u>&<u>value[gt]=5000<\/u>&<u>type[in]=[b,p]<\/u> \u2705\n<\/aside>"
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n     {\n         \"data\":[\n             \"user\": {\n                 \"name\":\"Test name\",\n                 \"email\":\"test@email.com.br\"\n             },\n             \"type\":\"Pix\", \/\/ [Pix, Boleto, Cart\u00e3o]\n             \"value\":\"R$ 0.000,00\",\n             \"paid\":\"Pago\", \/\/ ou 'N\u00e3o Pago'\n             \"payment_date\":\"d\/m\/Y H:i:s\", \/\/ ou Null\n             \"payment_since\":\"2 dias atr\u00e1s\", \/\/ ou Null\n         ]\n     },\n \t...\n}",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 401,
+                            "body": "{\n     \"message\": \"Unauthenticated.\"\n}",
+                            "name": "unauthenticated"
+                        }
+                    ]
+                },
+                {
+                    "name": "Exibe um invoice espec\u00edfico",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/invoices\/:invoice_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/invoices\/:invoice_id",
+                            "variable": [
+                                {
+                                    "id": "invoice_id",
+                                    "key": "invoice_id",
+                                    "value": "1",
+                                    "description": "ID do invoice."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n     \"data\": {\n         \"name\":\"Test name\",\n         \"email\":\" test@email.com.br\"\n     },\n     \"type\":\"Pix\", \/\/ [Pix, Boleto, Cart\u00e3o]\n     \"value\":\"R$ 0.000,00\",\n     \"paid\":\"Pago\", \/\/ ou 'N\u00e3o Pago'\n     \"payment_date\":\"20\/11\/1999 10:00:15\", \/\/ ou Null\n     \"payment_since\":\"2 dias atr\u00e1s\", \/\/ ou Null\n}",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 401,
+                            "body": "{\n     \"message\": \"Unauthenticated.\"\n}",
+                            "name": "not authorized"
+                        }
+                    ]
+                },
+                {
+                    "name": "Armazena um invoice rec\u00e9m criado",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/invoices",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/invoices"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"user_id\":2,\"type\":\"C\",\"paid\":1,\"payment_date\":\"1999-11-20 10:15:20\",\"value\":\"2.500,00\"}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n     \"message\": \"Invoice created\",\n     \"status\": 200,\n     \"data\":{\n         \"user\": {\n             \"name\":\"Test name\",\n             \"email\":\"test@email.com.br\"\n         },\n         \"type\":\"Pix\", \/\/ [Pix, Boleto, Cart\u00e3o]\n         \"value\":\"R$ 0.000,00\",\n         \"paid\":\"Pago\", \/\/ ou 'N\u00e3o Pago'\n         \"payment_date\":\"20\/11\/1999 10:00:15\", \/\/ ou Null\n         \"payment_since\":\"2 dias atr\u00e1s\", \/\/ ou Null\n     }\n}",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 400,
+                            "body": "{\n     \"message\": \"Unauthenticated.\"\n}",
+                            "name": "not deleted"
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n     \"message\": \"Validation failed\",\n     \"status\": 422,\n     \"data\": [\n         \/\/ errors...\n     ]\n}",
+                            "name": "validation failed"
+                        }
+                    ]
+                },
+                {
+                    "name": "Atualiza um invoice espec\u00edfico",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/invoices\/:invoice_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/invoices\/:invoice_id",
+                            "variable": [
+                                {
+                                    "id": "invoice_id",
+                                    "key": "invoice_id",
+                                    "value": "1",
+                                    "description": "ID do invoice."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"user_id\":2,\"type\":\"C\",\"paid\":1,\"value\":\"2.500,00\",\"payment_date\":\"1999-11-20 10:15:20\"}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n     \"message\": \"Invoice updated\",\n     \"status\": 200,\n     \"data\":{\n         \"user\": {\n             \"name\":\"Test name\",\n             \"email\":\"test@email.com.br\"\n         },\n         \"type\":\"Pix\", \/\/ [Pix, Boleto, Cart\u00e3o]\n         \"value\":\"R$ 0.000,00\",\n         \"paid\":\"Pago\", \/\/ ou 'N\u00e3o Pago'\n         \"payment_date\":\"20\/11\/1999 10:00:15\", \/\/ ou Null\n         \"payment_since\":\"2 dias atr\u00e1s\", \/\/ ou Null\n     }\n}",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 400,
+                            "body": "{\n     \"message\": \"Unauthenticated.\"\n}",
+                            "name": "not deleted"
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n     \"message\": \"Validation failed\",\n     \"status\": 422,\n     \"data\": [\n         \/\/ errors...\n     ]\n}",
+                            "name": "validation failed"
+                        }
+                    ]
+                },
+                {
+                    "name": "Remove um invoice espec\u00edfico.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/invoices\/:invoice_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/invoices\/:invoice_id",
+                            "variable": [
+                                {
+                                    "id": "invoice_id",
+                                    "key": "invoice_id",
+                                    "value": "1",
+                                    "description": "ID do invoice."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n     \"message\": \"Invoice deleted\",\n     \"status\": 200,\n     \"data\": []\n}",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 400,
+                            "body": "{\n     \"message\": \"Unauthenticated.\"\n}",
+                            "name": "not deleted"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "bearer",
+        "bearer": [
+            {
+                "key": "Authorization",
+                "value": null,
+                "type": "string"
+            }
+        ]
+    }
+}

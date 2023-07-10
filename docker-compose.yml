@@ -1,0 +1,51 @@
+version: '3.8'
+services:
+  main:
+    container_name: Serve
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: 'php artisan serve --host=0.0.0.0'
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+
+  db:
+    platform: linux/x86_64
+    image: mysql:8.0
+    container_name: Database
+    environment:
+      MYSQL_DATABASE: "invoices"
+      MYSQL_USER: "rubens"
+      MYSQL_ROOT: "root"
+      MYSQL_PASSWORD: "123456"
+      MYSQL_ROOT_PASSWORD: "123456"
+    volumes:
+      - db:/var/lib/mysql
+      - ./database/dump:/docker-entrypoint-initdb.d
+    ports:
+      - 33062:3306
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: PhpMyAdmin
+    links:
+      - db
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - 8080:80
+
+networks:
+  laravel-exa:
+    driver: bridge
+
+volumes:
+  db:
+    driver: local

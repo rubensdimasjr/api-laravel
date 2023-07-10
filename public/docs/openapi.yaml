@@ -1,0 +1,410 @@
+openapi: 3.0.3
+info:
+  title: 'Invoices API'
+  description: 'Bem-vindo ao mundo das APIs de Invoices! Nossa API poderosa e versátil permite a integração perfeita da funcionalidade de faturamento em seus aplicativos e sistemas. Com nossa API, você pode gerar, gerenciar e processar invoices sem esforço, capacitando sua empresa a simplificar as operações de faturamento. Diga adeus ao faturamento manual e adote a automação, pois nossa API simplifica todo o fluxo de trabalho do faturamento. Aproveite a flexibilidade para personalizar modelos de invoice, automatizar lembretes de pagamento e gerar relatórios detalhados com facilidade. Seja você uma pequena ou grande empresa, nossa API fornece uma solução robusta e escalável para atender às suas necessidades de faturamento. Experimente a eficiência e conveniência de nossa API de Invoice hoje!'
+  version: 1.0.0
+servers:
+  -
+    url: 'http://127.0.0.1:8000'
+paths:
+  /api/v1/login:
+    post:
+      summary: 'Requisição de Acesso'
+      operationId: requisioDeAcesso
+      description: 'Realiza uma autenticação através do e-mail e senha do usuário.'
+      parameters: []
+      responses:
+        200:
+          description: success
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n    \"message\": \"Authorized\",\n    \"status\": 200,\n    \"data\": {\n         \"token\": {YOUR_AUTH_KEY}\n     }\n}"
+        403:
+          description: 'not authorized'
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Not Authorized'
+                  status: 403
+                  data: []
+                properties:
+                  message:
+                    type: string
+                    example: 'Not Authorized'
+                  status:
+                    type: integer
+                    example: 403
+                  data:
+                    type: array
+                    example: []
+      tags:
+        - Autenticação
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'E-mail do usuário.'
+                  example: jraynor@example.net
+                password:
+                  type: string
+                  description: 'Senha do usuário.'
+                  example: 'txDU&3Av'
+              required:
+                - email
+                - password
+      security: []
+  /api/v1/logout:
+    post:
+      summary: 'Requisição de Saida'
+      operationId: requisioDeSaida
+      description: 'Realiza o logout de um usuário autenticado.'
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Token Revoked'
+                  status: 200
+                  data: []
+                properties:
+                  message:
+                    type: string
+                    example: 'Token Revoked'
+                  status:
+                    type: integer
+                    example: 200
+                  data:
+                    type: array
+                    example: []
+        401:
+          description: unauthenticated
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Autenticação
+  /api/v1/invoices:
+    get:
+      summary: 'Exibe lista de invoices'
+      operationId: exibeListaDeInvoices
+      description: "Realiza uma busca para listagem dos invoices com opções de filtro e paginação.\n\n<aside class=\"notice\">\n<b>FILTROS</b>\n<br />\n<br />\n     <b>Parâmetros</b>: (value, type, paid, payment_date)\n<br />\n     <b>Operadores</b>: <br />\n  gt ➡️ > (maior que)<br />\n  gte ➡️ >= (maior ou igual)<br />\n  lt ➡️ < (menor que)<br />\n  lte ➡️ <= (menor ou igual)<br />\n  eq ➡️ = (igual)<br />\n  ne ➡️ != (não igual)<br />\n  in ➡️ in (existe em)<br />\n<br />\nUtilização: <b>api/v1/invoices</b>?<u>paid[eq]=1</u>&<u>value[gt]=5000</u>&<u>type[in]=[b,p]</u> ✅\n</aside>"
+      parameters:
+        -
+          in: query
+          name: page
+          description: 'Utilizado para escolha da página.'
+          example: 1
+          required: false
+          schema:
+            type: integer
+            description: 'Utilizado para escolha da página.'
+            example: 1
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        200:
+          description: success
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n     {\n         \"data\":[\n             \"user\": {\n                 \"name\":\"Test name\",\n                 \"email\":\"test@email.com.br\"\n             },\n             \"type\":\"Pix\", // [Pix, Boleto, Cartão]\n             \"value\":\"R$ 0.000,00\",\n             \"paid\":\"Pago\", // ou 'Não Pago'\n             \"payment_date\":\"d/m/Y H:i:s\", // ou Null\n             \"payment_since\":\"2 dias atrás\", // ou Null\n         ]\n     },\n \t...\n}"
+        401:
+          description: unauthenticated
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - 'Gerenciamento de Invoices'
+    post:
+      summary: 'Armazena um invoice recém criado'
+      operationId: armazenaUmInvoiceRecmCriado
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        200:
+          description: success
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n     \"message\": \"Invoice created\",\n     \"status\": 200,\n     \"data\":{\n         \"user\": {\n             \"name\":\"Test name\",\n             \"email\":\"test@email.com.br\"\n         },\n         \"type\":\"Pix\", // [Pix, Boleto, Cartão]\n         \"value\":\"R$ 0.000,00\",\n         \"paid\":\"Pago\", // ou 'Não Pago'\n         \"payment_date\":\"20/11/1999 10:00:15\", // ou Null\n         \"payment_since\":\"2 dias atrás\", // ou Null\n     }\n}"
+        400:
+          description: 'not deleted'
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+        422:
+          description: 'validation failed'
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n     \"message\": \"Validation failed\",\n     \"status\": 422,\n     \"data\": [\n         // errors...\n     ]\n}"
+      tags:
+        - 'Gerenciamento de Invoices'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                  description: 'ID do usuário.'
+                  example: 2
+                type:
+                  type: string
+                  description: 'Tipo pagamento (Pix, Cartão, Boleto).'
+                  example: C
+                paid:
+                  type: integer
+                  description: 'Verificação do pagamento.'
+                  example: 1
+                payment_date:
+                  type: datetime
+                  description: 'Data do pagamento.'
+                  example: '1999-11-20 10:15:20'
+                value:
+                  type: numeric
+                  description: 'Valor do pagamento.'
+                  example: '2.500,00'
+              required:
+                - user_id
+                - type
+                - paid
+                - value
+  '/api/v1/invoices/{invoice_id}':
+    get:
+      summary: 'Exibe um invoice específico'
+      operationId: exibeUmInvoiceEspecfico
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        200:
+          description: success
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n     \"data\": {\n         \"name\":\"Test name\",\n         \"email\":\" test@email.com.br\"\n     },\n     \"type\":\"Pix\", // [Pix, Boleto, Cartão]\n     \"value\":\"R$ 0.000,00\",\n     \"paid\":\"Pago\", // ou 'Não Pago'\n     \"payment_date\":\"20/11/1999 10:00:15\", // ou Null\n     \"payment_since\":\"2 dias atrás\", // ou Null\n}"
+        401:
+          description: 'not authorized'
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - 'Gerenciamento de Invoices'
+    put:
+      summary: 'Atualiza um invoice específico'
+      operationId: atualizaUmInvoiceEspecfico
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        200:
+          description: success
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n     \"message\": \"Invoice updated\",\n     \"status\": 200,\n     \"data\":{\n         \"user\": {\n             \"name\":\"Test name\",\n             \"email\":\"test@email.com.br\"\n         },\n         \"type\":\"Pix\", // [Pix, Boleto, Cartão]\n         \"value\":\"R$ 0.000,00\",\n         \"paid\":\"Pago\", // ou 'Não Pago'\n         \"payment_date\":\"20/11/1999 10:00:15\", // ou Null\n         \"payment_since\":\"2 dias atrás\", // ou Null\n     }\n}"
+        400:
+          description: 'not deleted'
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+        422:
+          description: 'validation failed'
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n     \"message\": \"Validation failed\",\n     \"status\": 422,\n     \"data\": [\n         // errors...\n     ]\n}"
+      tags:
+        - 'Gerenciamento de Invoices'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                  description: 'ID do usuário.'
+                  example: 2
+                type:
+                  type: string
+                  description: 'Tipo pagamento (Pix, Cartão, Boleto).'
+                  example: C
+                paid:
+                  type: integer
+                  description: 'Verificação do pagamento.'
+                  example: 1
+                value:
+                  type: numeric
+                  description: 'Valor do pagamento.'
+                  example: '2.500,00'
+                payment_date:
+                  type: datetime
+                  description: 'Data do pagamento.'
+                  example: '1999-11-20 10:15:20'
+              required:
+                - user_id
+                - type
+                - paid
+                - value
+    delete:
+      summary: 'Remove um invoice específico.'
+      operationId: removeUmInvoiceEspecfico
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Invoice deleted'
+                  status: 200
+                  data: []
+                properties:
+                  message:
+                    type: string
+                    example: 'Invoice deleted'
+                  status:
+                    type: integer
+                    example: 200
+                  data:
+                    type: array
+                    example: []
+        400:
+          description: 'not deleted'
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - 'Gerenciamento de Invoices'
+    parameters:
+      -
+        in: path
+        name: invoice_id
+        description: 'ID do invoice.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+tags:
+  -
+    name: Autenticação
+    description: "\nA autenticação de uma API é um processo que verifica e confirma a identidade de um usuário ou aplicação antes de permitir o acesso aos recursos da API. Ela envolve o uso de credenciais, como tokens de acesso ou chaves de API, para garantir a segurança e proteção dos dados. A autenticação ajuda a controlar o acesso e garantir que apenas usuários autorizados possam interagir com a API."
+  -
+    name: 'Gerenciamento de Invoices'
+    description: "\nEndpoints para gerenciar a API."
+components:
+  securitySchemes:
+    default:
+      type: http
+      scheme: bearer
+      description: ''
+security:
+  -
+    default: []

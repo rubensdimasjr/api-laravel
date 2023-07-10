@@ -1,0 +1,479 @@
+name: 'Gerenciamento de Invoices'
+description: |-
+
+  Endpoints para gerenciar a API.
+endpoints:
+  -
+    httpMethods:
+      - GET
+    uri: api/v1/invoices
+    metadata:
+      groupName: 'Gerenciamento de Invoices'
+      groupDescription: |-
+
+        Endpoints para gerenciar a API.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Exibe lista de invoices'
+      description: |-
+        Realiza uma busca para listagem dos invoices com opções de filtro e paginação.
+
+        <aside class="notice">
+        <b>FILTROS</b>
+        <br />
+        <br />
+             <b>Parâmetros</b>: (value, type, paid, payment_date)
+        <br />
+             <b>Operadores</b>: <br />
+          gt ➡️ > (maior que)<br />
+          gte ➡️ >= (maior ou igual)<br />
+          lt ➡️ < (menor que)<br />
+          lte ➡️ <= (menor ou igual)<br />
+          eq ➡️ = (igual)<br />
+          ne ➡️ != (não igual)<br />
+          in ➡️ in (existe em)<br />
+        <br />
+        Utilização: <b>api/v1/invoices</b>?<u>paid[eq]=1</u>&<u>value[gt]=5000</u>&<u>type[in]=[b,p]</u> ✅
+        </aside>
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      page:
+        name: page
+        description: 'Utilizado para escolha da página.'
+        required: false
+        example: 1
+        type: integer
+        custom: []
+    cleanQueryParameters:
+      page: 1
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+               {
+                   "data":[
+                       "user": {
+                           "name":"Test name",
+                           "email":"test@email.com.br"
+                       },
+                       "type":"Pix", // [Pix, Boleto, Cartão]
+                       "value":"R$ 0.000,00",
+                       "paid":"Pago", // ou 'Não Pago'
+                       "payment_date":"d/m/Y H:i:s", // ou Null
+                       "payment_since":"2 dias atrás", // ou Null
+                   ]
+               },
+           	...
+          }
+        headers: []
+        description: success
+        custom: []
+      -
+        status: 401
+        content: |-
+          {
+               "message": "Unauthenticated."
+          }
+        headers: []
+        description: unauthenticated
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer V8Z5EebaPck4366agvDh1df'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/v1/invoices/{invoice_id}'
+    metadata:
+      groupName: 'Gerenciamento de Invoices'
+      groupDescription: |-
+
+        Endpoints para gerenciar a API.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Exibe um invoice específico'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      invoice_id:
+        name: invoice_id
+        description: 'ID do invoice.'
+        required: true
+        example: 1
+        type: integer
+        custom: []
+    cleanUrlParameters:
+      invoice_id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+               "data": {
+                   "name":"Test name",
+                   "email":" test@email.com.br"
+               },
+               "type":"Pix", // [Pix, Boleto, Cartão]
+               "value":"R$ 0.000,00",
+               "paid":"Pago", // ou 'Não Pago'
+               "payment_date":"20/11/1999 10:00:15", // ou Null
+               "payment_since":"2 dias atrás", // ou Null
+          }
+        headers: []
+        description: success
+        custom: []
+      -
+        status: 401
+        content: |-
+          {
+               "message": "Unauthenticated."
+          }
+        headers: []
+        description: 'not authorized'
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer cEeP1a6vZVb6fdha4D358kg'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/invoices
+    metadata:
+      groupName: 'Gerenciamento de Invoices'
+      groupDescription: |-
+
+        Endpoints para gerenciar a API.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Armazena um invoice recém criado'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      user_id:
+        name: user_id
+        description: 'ID do usuário.'
+        required: true
+        example: 2
+        type: integer
+        custom: []
+      type:
+        name: type
+        description: 'Tipo pagamento (Pix, Cartão, Boleto).'
+        required: true
+        example: C
+        type: string
+        custom: []
+      paid:
+        name: paid
+        description: 'Verificação do pagamento.'
+        required: true
+        example: 1
+        type: integer
+        custom: []
+      payment_date:
+        name: payment_date
+        description: 'Data do pagamento.'
+        required: false
+        example: '1999-11-20 10:15:20'
+        type: datetime
+        custom: []
+      value:
+        name: value
+        description: 'Valor do pagamento.'
+        required: true
+        example: '2.500,00'
+        type: numeric
+        custom: []
+    cleanBodyParameters:
+      user_id: 2
+      type: C
+      paid: 1
+      payment_date: '1999-11-20 10:15:20'
+      value: '2.500,00'
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+               "message": "Invoice created",
+               "status": 200,
+               "data":{
+                   "user": {
+                       "name":"Test name",
+                       "email":"test@email.com.br"
+                   },
+                   "type":"Pix", // [Pix, Boleto, Cartão]
+                   "value":"R$ 0.000,00",
+                   "paid":"Pago", // ou 'Não Pago'
+                   "payment_date":"20/11/1999 10:00:15", // ou Null
+                   "payment_since":"2 dias atrás", // ou Null
+               }
+          }
+        headers: []
+        description: success
+        custom: []
+      -
+        status: 400
+        content: |-
+          {
+               "message": "Unauthenticated."
+          }
+        headers: []
+        description: 'not deleted'
+        custom: []
+      -
+        status: 422
+        content: |-
+          {
+               "message": "Validation failed",
+               "status": 422,
+               "data": [
+                   // errors...
+               ]
+          }
+        headers: []
+        description: 'validation failed'
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer E531bDhZ6fd6VcgaPe8kv4a'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - PUT
+    uri: 'api/v1/invoices/{invoice_id}'
+    metadata:
+      groupName: 'Gerenciamento de Invoices'
+      groupDescription: |-
+
+        Endpoints para gerenciar a API.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Atualiza um invoice específico'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      invoice_id:
+        name: invoice_id
+        description: 'ID do invoice.'
+        required: true
+        example: '1'
+        type: string
+        custom: []
+    cleanUrlParameters:
+      invoice_id: '1'
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      user_id:
+        name: user_id
+        description: 'ID do usuário.'
+        required: true
+        example: 2
+        type: integer
+        custom: []
+      type:
+        name: type
+        description: 'Tipo pagamento (Pix, Cartão, Boleto).'
+        required: true
+        example: C
+        type: string
+        custom: []
+      paid:
+        name: paid
+        description: 'Verificação do pagamento.'
+        required: true
+        example: 1
+        type: integer
+        custom: []
+      value:
+        name: value
+        description: 'Valor do pagamento.'
+        required: true
+        example: '2.500,00'
+        type: numeric
+        custom: []
+      payment_date:
+        name: payment_date
+        description: 'Data do pagamento.'
+        required: false
+        example: '1999-11-20 10:15:20'
+        type: datetime
+        custom: []
+    cleanBodyParameters:
+      user_id: 2
+      type: C
+      paid: 1
+      value: '2.500,00'
+      payment_date: '1999-11-20 10:15:20'
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+               "message": "Invoice updated",
+               "status": 200,
+               "data":{
+                   "user": {
+                       "name":"Test name",
+                       "email":"test@email.com.br"
+                   },
+                   "type":"Pix", // [Pix, Boleto, Cartão]
+                   "value":"R$ 0.000,00",
+                   "paid":"Pago", // ou 'Não Pago'
+                   "payment_date":"20/11/1999 10:00:15", // ou Null
+                   "payment_since":"2 dias atrás", // ou Null
+               }
+          }
+        headers: []
+        description: success
+        custom: []
+      -
+        status: 400
+        content: |-
+          {
+               "message": "Unauthenticated."
+          }
+        headers: []
+        description: 'not deleted'
+        custom: []
+      -
+        status: 422
+        content: |-
+          {
+               "message": "Validation failed",
+               "status": 422,
+               "data": [
+                   // errors...
+               ]
+          }
+        headers: []
+        description: 'validation failed'
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer cb5D61Z8ev3f4EaPahdg6kV'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - DELETE
+    uri: 'api/v1/invoices/{invoice_id}'
+    metadata:
+      groupName: 'Gerenciamento de Invoices'
+      groupDescription: |-
+
+        Endpoints para gerenciar a API.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Remove um invoice específico.'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      invoice_id:
+        name: invoice_id
+        description: 'ID do invoice.'
+        required: true
+        example: '1'
+        type: string
+        custom: []
+    cleanUrlParameters:
+      invoice_id: '1'
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+               "message": "Invoice deleted",
+               "status": 200,
+               "data": []
+          }
+        headers: []
+        description: success
+        custom: []
+      -
+        status: 400
+        content: |-
+          {
+               "message": "Unauthenticated."
+          }
+        headers: []
+        description: 'not deleted'
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6a4kbeVdg8Pc6aZvE53fD1h'
+    controller: null
+    method: null
+    route: null
+    custom: []
