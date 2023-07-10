@@ -7,7 +7,7 @@ A API REST de faturas (invoices) é um exemplo de solução para gerenciar e pro
 - PHP versão 8.2
 - Laravel versão 10
 - Banco de dados (MySQL)
-- Documentação (Scribe)
+- Docker
 
 ## Instalação
 
@@ -15,11 +15,19 @@ A API REST de faturas (invoices) é um exemplo de solução para gerenciar e pro
 
    ```shell
    git clone https://github.com/seu-usuario/nome-do-projeto.git
+   cd api-laravel/
    ```
 2. Dentro do diretório do projeto, copie e renomeie o arquivo .env.example:
 
    ```shell
-   cd api-laravel/
    cp .env.example .env
+   php artisan key:generate
    ```
+3. Instalação via docker:
+   OBS: Antes de executar o script, dê uma olhada no arquivo **docker-compose.yml** e garanta que nenhuma porta esteja sendo usada pelos serviços.
+   
+   ```shell
+   docker compose build --no-cache && docker compose up -d
+   ```
+5. 
 
