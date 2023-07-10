@@ -7,6 +7,7 @@ A API REST de faturas (invoices) é um exemplo de solução para gerenciar e pro
 - PHP 8.2
 - Composer (última versão de preferência)
 - Git
+- Git Bash (opcional)
 - Docker
 
 ## Instalação
