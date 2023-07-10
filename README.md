@@ -23,17 +23,18 @@ A API REST de faturas (invoices) é um exemplo de solução para gerenciar e pro
    composer install
    ```
 3. Copie e renomeie o arquivo **.env.example** para **.env**:
+   
    ⚠️ Caso você não esteja utilizando o **git bash** como terminal, terá que renomear manualmente o arquivo e executar o comando para gerar a key.
    ```shell
    cp .env.example .env && php artisan key:generate
    ```
-4. Instalação via docker:
+5. Instalação via docker:
    
    ⚠️ Antes de executar o script, dê uma olhada no arquivo **docker-compose.yml** e garanta que nenhuma porta esteja sendo usada pelos serviços.
    ```shell
    docker compose build --no-cache && docker compose up -d
    ```
-5. Após o container estar ativo, execute as migrações do banco de dados e alimente-o com dados iniciais:
+6. Após o container estar ativo, execute as migrações do banco de dados e alimente-o com dados iniciais:
    
    ℹ️ O script abaixo é utilizado para acessar o terminal de um determinado serviço e executar um comando.
    ```shell
