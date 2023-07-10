@@ -32,16 +32,11 @@ A API REST de faturas (invoices) é um exemplo de solução para gerenciar e pro
    ```shell
    docker compose build --no-cache && docker compose up -d
    ```
-5. Após o container estar ativo:
+5. Após o container estar ativo, execute as migrações do banco de dados e alimente-o com dados iniciais:
    
-   ℹ️ O script abaixo é utilizado para acessar o terminal de um determinado serviço.
+   ℹ️ O script abaixo é utilizado para acessar o terminal de um determinado serviço e executar um comando.
    ```shell
-   docker compose exec main sh
-   ```
-6. Utilizando o terminal do docker, execute as migrações do banco de dados e alimente-o com dados iniciais:
-
-   ```shell
-   php artisan migrate --seed
+   docker compose exec main php artisan migrate --seed
    ```
    O servidor estará pronto em http://localhost:8000.
 
