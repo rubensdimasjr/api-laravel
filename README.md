@@ -24,8 +24,8 @@ A API REST de faturas (invoices) é um exemplo de solução para gerenciar e pro
    php artisan key:generate
    ```
 3. Instalação via docker:
-   OBS: Antes de executar o script, dê uma olhada no arquivo **docker-compose.yml** e garanta que nenhuma porta esteja sendo usada pelos serviços.
    
+   OBS: Antes de executar o script, dê uma olhada no arquivo **docker-compose.yml** e garanta que nenhuma porta esteja sendo usada pelos serviços.
    ```shell
    docker compose build --no-cache && docker compose up -d
    ```
