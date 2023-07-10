@@ -15,13 +15,18 @@ A API REST de faturas (invoices) é um exemplo de solução para gerenciar e pro
    ```shell
    git clone https://github.com/rubensdimasjr/api-laravel.git && cd api-laravel/
    ```
-2. Dentro do diretório do projeto, copie e renomeie o arquivo .env.example:
+2. Instale as dependências do projeto usando o Composer:
+
+   ```shell
+   composer install
+   ```
+3. Dentro do diretório do projeto, copie e renomeie o arquivo .env.example:
 
    ```shell
    cp .env.example .env
    php artisan key:generate
    ```
-3. Instalação via docker:
+4. Instalação via docker:
    
    ⚠️ Antes de executar o script, dê uma olhada no arquivo **docker-compose.yml** e garanta que nenhuma porta esteja sendo usada pelos serviços.
    ```shell
@@ -33,7 +38,7 @@ A API REST de faturas (invoices) é um exemplo de solução para gerenciar e pro
    ```shell
    docker compose exec main sh
    ```
-7. Utilizando o terminal do docker, execute as migrações do banco de dados e alimente-o com dados iniciais:
+6. Utilizando o terminal do docker, execute as migrações do banco de dados e alimente-o com dados iniciais:
 
    ```shell
    php artisan migrate --seed
