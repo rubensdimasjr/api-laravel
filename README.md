@@ -24,8 +24,7 @@ A API REST de faturas (invoices) é um exemplo de solução para gerenciar e pro
 3. Copie e renomeie o arquivo **.env.example** para **.env**:
 
    ```shell
-   cp .env.example .env
-   php artisan key:generate
+   cp .env.example .env && php artisan key:generate
    ```
 4. Instalação via docker:
    
